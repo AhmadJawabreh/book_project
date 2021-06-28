@@ -7603,9 +7603,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\USER\\Desktop\\book_project\\BookServices\\BookServices.csproj",
-      "projectName": "BookServices",
-      "projectPath": "C:\\Users\\USER\\Desktop\\book_project\\BookServices\\BookServices.csproj",
+      "projectUniqueName": "C:\\Users\\USER\\Desktop\\book_project\\BookServices\\API.csproj",
+      "projectName": "API",
+      "projectPath": "C:\\Users\\USER\\Desktop\\book_project\\BookServices\\API.csproj",
       "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\USER\\Desktop\\book_project\\BookServices\\obj\\",
       "projectStyle": "PackageReference",
