@@ -10,3 +10,15 @@ C:\Users\USER\source\repos\BookServices\Contract\bin\Debug\net5.0\Contract.pdb
 C:\Users\USER\source\repos\BookServices\Contract\obj\Debug\net5.0\Contract.dll
 C:\Users\USER\source\repos\BookServices\Contract\obj\Debug\net5.0\ref\Contract.dll
 C:\Users\USER\source\repos\BookServices\Contract\obj\Debug\net5.0\Contract.pdb
+C:\Users\USER\Desktop\book_project\Contract\bin\Debug\net5.0\Contract.deps.json
+C:\Users\USER\Desktop\book_project\Contract\bin\Debug\net5.0\Contract.dll
+C:\Users\USER\Desktop\book_project\Contract\bin\Debug\net5.0\ref\Contract.dll
+C:\Users\USER\Desktop\book_project\Contract\bin\Debug\net5.0\Contract.pdb
+C:\Users\USER\Desktop\book_project\Contract\obj\Debug\net5.0\Contract.csproj.AssemblyReference.cache
+C:\Users\USER\Desktop\book_project\Contract\obj\Debug\net5.0\Contract.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\Desktop\book_project\Contract\obj\Debug\net5.0\Contract.AssemblyInfoInputs.cache
+C:\Users\USER\Desktop\book_project\Contract\obj\Debug\net5.0\Contract.AssemblyInfo.cs
+C:\Users\USER\Desktop\book_project\Contract\obj\Debug\net5.0\Contract.csproj.CoreCompileInputs.cache
+C:\Users\USER\Desktop\book_project\Contract\obj\Debug\net5.0\Contract.dll
+C:\Users\USER\Desktop\book_project\Contract\obj\Debug\net5.0\ref\Contract.dll
+C:\Users\USER\Desktop\book_project\Contract\obj\Debug\net5.0\Contract.pdb

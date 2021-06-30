@@ -12,6 +12,11 @@ namespace Repoistories
         public IBookRepository _books;
 
 
+        public IRepository<Author> _authors;
+
+        public IRepository<Publisher> _publisher;
+
+
         public UnitOfWork(ApplicationDbContext context)
         {
             this._context = context;
@@ -24,6 +29,22 @@ namespace Repoistories
             get
             {
                 return _books ?? (_books = new BookRepository(_context));
+            }
+        }
+
+        public IRepository<Publisher> Publishers
+        {
+            get
+            {
+                return _publisher ?? (_publisher = new BaseRepository<Publisher>(_context));
+            }
+        }
+
+        public IRepository<Author> Authors
+        {
+            get
+            {
+                return _authors ?? (_authors = new BaseRepository<Author>(_context));
             }
         }
 

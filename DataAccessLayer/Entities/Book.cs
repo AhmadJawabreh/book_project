@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,6 +19,8 @@ namespace Entities
         public DateTime ReleaseDate { get; set; }
 
         public long? PublisherId { get; set; }
+
+
 
     }
 }

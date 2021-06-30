@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 namespace BusinessLogic.Mappers
 {
-
-
     public class BookMapper
     {
         public static List<BookResource> ToResources(IEnumerable<Book> books)
@@ -19,14 +17,15 @@ namespace BusinessLogic.Mappers
                      {
                          Id = Item.Id,
                          Name = Item?.Name,
-                         ReleaseDate = Item.ReleaseDate
+                         ReleaseDate = Item.ReleaseDate,
                      }
                     );
             }
             return BookResourcess;
         }
 
-        public static BookResource ToResource(Book book)
+
+        public static BookResource ToResource(Book book) 
         {
             BookResource bookResource = new BookResource();
             bookResource.Id = book.Id;
@@ -35,6 +34,7 @@ namespace BusinessLogic.Mappers
             return bookResource;
         }
 
+ 
         public static Book ToEntity(Book book, BookModel bookModel)
         {
             book.Id = bookModel.Id;
