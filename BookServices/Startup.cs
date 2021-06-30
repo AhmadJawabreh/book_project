@@ -34,7 +34,7 @@ namespace BookServices
             services.AddScoped<IBookManager, BookManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer("Server=localhost;Database=book_db;Trusted_Connection=True;",
+            options.UseSqlServer("Server=localhost;Database=db_book;Trusted_Connection=True;",
             b =>
                 b.MigrationsAssembly("DataAccessLayer")));
             services.AddControllers();

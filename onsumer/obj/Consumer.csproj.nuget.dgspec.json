@@ -241,10 +241,6 @@
             "RabbitMQ.Client": {
               "target": "Package",
               "version": "[6.2.2, )"
-            },
-            "Unity": {
-              "target": "Package",
-              "version": "[5.11.10, )"
             }
           },
           "imports": [

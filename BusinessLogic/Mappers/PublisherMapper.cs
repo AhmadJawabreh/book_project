@@ -41,6 +41,7 @@ namespace BusinessLogic.Mappers
 
         public static Publisher ToEntity(Publisher publisher,PublisherModel publisherModel)
         {
+            publisher.Id = publisherModel.Id;
             publisher.FirstName = publisherModel.FirstName.Trim();
             publisher.LastName = publisherModel.LastName.Trim();
             publisher.Email = publisherModel.Email?.Trim();

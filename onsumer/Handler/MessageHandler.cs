@@ -1,22 +1,32 @@
-﻿namespace Consumer.Handler
+﻿using BusinessLogic;
+using BusinessLogic.Mappers;
+using Consumer.Services;
+using Contract.RabbitMQ;
+using ENUM;
+using Models;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using Resources;
+using System;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Consumer.Handler
 {
-    using BusinessLogic;
-    using BusinessLogic.Mappers;
-    using Consumer.Services;
-    using Contract.RabbitMQ;
-    using ENUM;
-    using Models;
-    using Resources;
-    using System;
-    using System.Threading.Tasks;
 
     public interface IMessageHandler
     {
+        ConnectionFactory GetConnection();
+        void CreateConnection();
+
+        void Listen();
+
         Task Handle(Message message);
 
-        Task UpdatePublisher(Message message);
+        Task PublisherHandler(Message message);
 
-        Task UpdateAuthor(Message message);
+        Task AuthorHandler(Message message);
     }
 
     public class MessageHandler : IMessageHandler
@@ -29,6 +39,11 @@
 
         private readonly PublisherManager _publisherManager;
 
+        private IConnectionFactory _connectionFactory;
+                private IConnection _connection;
+
+        private Message message;
+
         public MessageHandler(AuthorService authorService, AuthorManager authorManager, PublisherService publisherService, PublisherManager publisherManager)
         {
 
@@ -38,22 +53,56 @@
             this._publisherManager = publisherManager;
         }
 
+        public void CreateConnection()
+        {
+            _connectionFactory = GetConnection();
+            _connection = this._connectionFactory.CreateConnection();
+        }
+
+        public ConnectionFactory GetConnection()
+        {
+            return new ConnectionFactory()
+            {
+                HostName = Configuration.HostName,
+                UserName = Configuration.UserName,
+                Password = Configuration.Password,
+                Port = Configuration.Port,
+            };
+        }
+
+        public void Listen()
+        {
+            IModel channel = this._connection.CreateModel();
+            EventingBasicConsumer _consumer = new EventingBasicConsumer(channel);
+            _consumer.Received += async (model, snapShot) =>
+            {
+                var messageContent = snapShot.Body.ToArray();
+                string content = Encoding.UTF8.GetString(messageContent);
+                message = JsonConvert.DeserializeObject<Message>(content);
+                await Handle(message);
+            };
+            channel.BasicConsume(queue: Configuration.BookQueue,
+                                 autoAck: true,
+                                 consumer: _consumer);
+            Console.ReadLine();
+        }
+
         public async Task Handle(Message message)
         {
             if (message == null) return;
             switch (message?.dirtyEntityType)
             {
                 case DirtyEntityType.Publisher:
-                    await UpdatePublisher(message);
+                    await PublisherHandler(message);
                     break;
 
                 case DirtyEntityType.Author:
-                    await UpdateAuthor(message);
+                    await AuthorHandler(message);
                     break;
             }
         }
 
-        public async Task UpdateAuthor(Message message)
+        public async Task AuthorHandler(Message message)
         {
             switch (message?.operationType)
             {
@@ -73,7 +122,7 @@
             }
         }
 
-        public async Task UpdatePublisher(Message message)
+        public async Task PublisherHandler(Message message)
         {
             switch (message?.operationType)
             {

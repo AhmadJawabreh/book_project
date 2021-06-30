@@ -42,7 +42,7 @@ namespace BusinessLogic.Mappers
 
         public static Author ToEntity(Author author, AuthorModel authorModel) 
         {
-            authorModel.Id = authorModel.Id;
+            author.Id = authorModel.Id;
             author.Email = authorModel.Email;
             author.DateOfBirth = authorModel.DateOfBirth;
             author.Name = authorModel.Name.Trim();

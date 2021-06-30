@@ -8,7 +8,7 @@ namespace Entities
     public class Publisher
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long Id { get; set; }
 
         [Required(ErrorMessage = "Publisher Name is required.")]

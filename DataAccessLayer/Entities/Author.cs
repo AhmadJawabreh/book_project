@@ -8,7 +8,7 @@ namespace Entities
     public class Author
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long Id { get; set; }
 
         [Required(ErrorMessage = "Last Name is Required")]

@@ -11,8 +11,7 @@
           "BusinessLogic": "1.0.0",
           "Contract": "1.0.0",
           "Newtonsoft.Json": "13.0.1",
-          "RabbitMQ.Client": "6.2.2",
-          "Unity": "5.11.10"
+          "RabbitMQ.Client": "6.2.2"
         },
         "runtime": {
           "Consumer.dll": {}
@@ -733,7 +732,6 @@
           }
         }
       },
-      "System.Runtime.CompilerServices.Unsafe/4.5.2": {},
       "System.Runtime.Extensions/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
@@ -972,21 +970,6 @@
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XmlDocument": "4.3.0"
-        }
-      },
-      "Unity/5.11.10": {
-        "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "4.5.2"
-        },
-        "runtime": {
-          "lib/netcoreapp3.0/Unity.Abstractions.dll": {
-            "assemblyVersion": "5.11.7.0",
-            "fileVersion": "5.11.7.0"
-          },
-          "lib/netcoreapp3.0/Unity.Container.dll": {
-            "assemblyVersion": "5.11.11.0",
-            "fileVersion": "5.11.11.0"
-          }
         }
       },
       "BusinessLogic/1.0.0": {
@@ -1491,13 +1474,6 @@
       "path": "system.runtime.caching/4.7.0",
       "hashPath": "system.runtime.caching.4.7.0.nupkg.sha512"
     },
-    "System.Runtime.CompilerServices.Unsafe/4.5.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-wprSFgext8cwqymChhrBLu62LMg/1u92bU+VOwyfBimSPVFXtsNqEWC92Pf9ofzJFlk4IHmJA75EDJn1b2goAQ==",
-      "path": "system.runtime.compilerservices.unsafe/4.5.2",
-      "hashPath": "system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
-    },
     "System.Runtime.Extensions/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -1679,13 +1655,6 @@
       "sha512": "sha512-MYoTCP7EZ98RrANESW05J5ZwskKDoN0AuZ06ZflnowE50LTpbR5yRg3tHckTVm5j/m47stuGgCrCHWePyHS70Q==",
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
-    },
-    "Unity/5.11.10": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-B4+Ps3oqI78hJ+dAFsJhPkJT6qycsNExgLbtw7CEHSzKc2ac3YyUR8SHQ+ZyTwld/y5IbDx/aNOHnKE9Em1zWA==",
-      "path": "unity/5.11.10",
-      "hashPath": "unity.5.11.10.nupkg.sha512"
     },
     "BusinessLogic/1.0.0": {
       "type": "project",
