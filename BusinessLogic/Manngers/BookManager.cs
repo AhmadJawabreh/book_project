@@ -99,90 +99,69 @@
         public async Task<BookResource> InsertAsync(BookModel bookModel)
         {
 
-            //Check if this book name exist before.
             Book _book = _unitOfWork.Books.FirstOrDefalut(item => item.Name == bookModel?.Name);
 
             if (_book != null)
                 throw new DubplicateDataException("Book Name already exist");
 
-            //Check if this publisher exist.
             Publisher publisher = _unitOfWork.Publishers.FirstOrDefalut(item => item.Id == bookModel?.PublisherId);
             if (publisher == null)
                 throw new NotFoundException("Publisher does not exist ");
 
-            //Ensure that all these authors are exist on database.
-            List<Author> Authors = _unitOfWork.Authors.Where(item => bookModel.AuthoIds.Contains(item.Id)).ToList();
+            List<Author> Authors = _unitOfWork.Authors.Where(item => bookModel.AuthorIds.Contains(item.Id)).ToList();
 
-            //Convert bookModel to Book.
-            Book book = new Book();
-            BookMapper.ToEntity(book, bookModel);
+            Book book = BookMapper.ToEntity(new Book(), bookModel);
 
-            //Insert the new book
             await _unitOfWork.Books.Create(book);
 
-            //Save all changes in order to get book id.
             await _unitOfWork.Save();
 
-            //Add all authorIds inside BookAuthor Table.
             foreach (Author author in Authors)
             {
                 await _unitOfWork.BookAuthors.Create(new BookAuthor() { AuthorId = author.Id, BookId = book.Id });
             }
 
-            //Save all changes.
             await _unitOfWork.Save();
 
-            //convert book to book resource. 
             BookResource bookResource = BookMapper.ToResource(book);
             bookResource.Authors = AuthorMapper.ToResources(Authors);
             bookResource.publisher = PublisherMapper.ToResource(publisher);
-
-            //Return book resource.
             return bookResource;
         }
 
         public async Task<BookResource> UpdateAsync(BookModel bookModel)
         {
 
-            //Check if this book is exist.
-            Book book = _unitOfWork.Books.FirstOrDefalut(item => item.Id == bookModel?.Id);
+            Book book = await _unitOfWork.Books.GetBookWithAuthors((long)bookModel?.Id);
             if (book == null)
                 throw new DubplicateDataException("This Book does not exist");
 
-            //Check if this book name exist before.
             Book _book = _unitOfWork.Books.FirstOrDefalut(item => item.Name == bookModel?.Name);
             if (_book != null && _book.Id != bookModel.Id)
                 throw new DubplicateDataException("Book Name already exist");
 
-            //Check if this publisher exist.
             Publisher publisher = _unitOfWork.Publishers.FirstOrDefalut(item => item.Id == bookModel?.PublisherId);
             if (publisher == null)
                 throw new NotFoundException("Publisher does not exist ");
 
+            List<Author> Authors = _unitOfWork.Authors.Where(item => bookModel.AuthorIds.Contains(item.Id)).ToList();
 
-            //Check that all BookAuthors are exist.
-            List<BookAuthor> BookAuthors = _unitOfWork.BookAuthors.Where(item => bookModel.AuthoIds.Contains(item.AuthorId)).ToList();
+            List<BookAuthor> BookAuthors = Authors.Select(item => new BookAuthor { AuthorId = item.Id, BookId = book.Id }).ToList();
 
-            //Convert bookModel to Book.
             BookMapper.ToEntity(book, bookModel);
+
             book.BookAuthors = BookAuthors;
 
-            //Update the old book
             _unitOfWork.Books.Update(book);
 
-            //Save all changes.
             await _unitOfWork.Save();
 
-
-            //Get authors to display them in back request.
-            List<Author> Authors = _unitOfWork.Authors.Where(item => bookModel.AuthoIds.Contains(item.Id)).ToList();
-
-            //convert book to book resource. 
             BookResource bookResource = BookMapper.ToResource(book);
+
             bookResource.Authors = AuthorMapper.ToResources(Authors);
+
             bookResource.publisher = PublisherMapper.ToResource(publisher);
 
-            //Return book resource.
             return bookResource;
         }
 
@@ -196,6 +175,5 @@
             _unitOfWork.Books.Delete(book);
             await this._unitOfWork.Save();
         }
-
     }
 }
