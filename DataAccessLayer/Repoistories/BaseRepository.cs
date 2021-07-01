@@ -42,6 +42,11 @@ namespace Repoistories
             return entity;
         }
 
+        public List<TEntity> Where(Func<TEntity, bool> condition)
+        {
+            return  this.dbSet.Where(condition).ToList();  
+        }
+
         public TEntity Update(TEntity entity)
         {
             this.dbSet.Update(entity);

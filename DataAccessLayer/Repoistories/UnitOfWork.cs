@@ -16,6 +16,8 @@ namespace Repoistories
 
         public IRepository<Publisher> _publisher;
 
+        public IRepository<BookAuthor> _bookAuthors;
+
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -45,6 +47,14 @@ namespace Repoistories
             get
             {
                 return _authors ?? (_authors = new BaseRepository<Author>(_context));
+            }
+        }
+
+        public IRepository<BookAuthor> BookAuthors
+        {
+            get
+            {
+                return _bookAuthors ?? (_bookAuthors = new BaseRepository<BookAuthor>(_context));
             }
         }
 

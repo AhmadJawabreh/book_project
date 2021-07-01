@@ -1,8 +1,7 @@
-﻿using Entities;
-using Microsoft.EntityFrameworkCore;
-
-namespace Data
+﻿namespace Data
 {
+    using Entities;
+    using Microsoft.EntityFrameworkCore;
 
     public class ApplicationDbContext : DbContext
     {
@@ -12,6 +11,12 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<BookAuthor>()
+                .HasOne(item => item.Book)
+                .WithMany(item => item.BookAuthors)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<BookAuthor>().HasKey(item => new { item.BookId, item.AuthorId });
         }
 
         public DbSet<Book> Books { get; set; }

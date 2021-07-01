@@ -19,6 +19,6 @@ namespace Models
         [Required(ErrorMessage = "Please select a publisher")]
         public int PublisherId { get; set; }
 
-        public List<int> AuthoIds { get; set; }
+        public List<long> AuthoIds { get; set; }
     }
 }

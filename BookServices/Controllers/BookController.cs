@@ -22,9 +22,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks([FromQuery] Filter filter)
+        public async Task<IActionResult> GetAllBooksAsync([FromQuery] Filter filter)
         {
-            List<BookResource> bookResources = _bookManager.GetAll(filter);
+            List<BookResource> bookResources = await _bookManager.GetAllAsync(filter);
             return Ok(bookResources);
         }
 
@@ -32,13 +32,6 @@ namespace API.Controllers
         public async Task<IActionResult> Details([FromRoute] int Id)
         {
             BookResource bookResource = await _bookManager.GetByIdAsync(Id);
-            return Ok(bookResource);
-        }
-
-        [HttpGet("ExtraDetails/{Id}")]
-        public async Task<IActionResult> GetBookWithAuthorsAndPublisher([FromQuery] Filter bookFilter, [FromRoute] int Id)
-        {
-            BookResource bookResource = await _bookManager.GetBookWithAuthorsAndPublisher(bookFilter, Id);
             return Ok(bookResource);
         }
 

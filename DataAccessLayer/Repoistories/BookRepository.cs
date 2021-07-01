@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Repoistories
 {
 
     public interface IBookRepository : IRepository<Book>
     {
-        Task<Book> GetBookWithAuthorsAndPublisher(Filter filter, long Id);
+        Task<Book> GetBookWithAuthors(long Id);
     }
 
     public class BookRepository : BaseRepository<Book>, IBookRepository
@@ -25,6 +26,8 @@ namespace Repoistories
 
             IQueryable<Book> _dbSet = dbSet;
 
+            _dbSet = dbSet.Include(item => item.BookAuthors);
+
             if (!string.IsNullOrEmpty(filter.BookName))
             {
                 _dbSet = _dbSet.Where(item => item.Name == filter.BookName);
@@ -36,9 +39,11 @@ namespace Repoistories
             return books;
         }
 
-        public async Task<Book> GetBookWithAuthorsAndPublisher(Filter filter, long Id)
+        public async Task<Book> GetBookWithAuthors(long Id)
         {
             IQueryable<Book> _dbSet = dbSet;
+
+            _dbSet = dbSet.Include(item => item.BookAuthors);
 
             return await _dbSet.FirstOrDefaultAsync(item => item.Id == Id);
         }

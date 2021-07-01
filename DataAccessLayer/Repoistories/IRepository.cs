@@ -18,6 +18,8 @@ namespace Repoistories
 
         TEntity FirstOrDefalut(Func<TEntity, bool> condition);
 
+        List<TEntity> Where(Func<TEntity, bool> condition);
+
         void Delete(TEntity entity);
     }
 }
