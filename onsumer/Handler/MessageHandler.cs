@@ -15,9 +15,11 @@ using System.Threading.Tasks;
 namespace Consumer.Handler
 {
 
+
     public interface IMessageHandler
     {
         ConnectionFactory GetConnection();
+
         void CreateConnection();
 
         void Listen();
@@ -40,7 +42,8 @@ namespace Consumer.Handler
         private readonly PublisherManager _publisherManager;
 
         private IConnectionFactory _connectionFactory;
-                private IConnection _connection;
+
+        private IConnection _connection;
 
         private Message message;
 
@@ -72,15 +75,42 @@ namespace Consumer.Handler
 
         public void Listen()
         {
+            bool isBrokerDown = false;
             IModel channel = this._connection.CreateModel();
             EventingBasicConsumer _consumer = new EventingBasicConsumer(channel);
+
+
+
+            _consumer.Registered += (model, snapshot) =>
+            {
+                if (isBrokerDown)
+                {
+                    //clear all view caches.
+                    //fetch data and insert it into view caches.
+                    isBrokerDown = false;
+                }
+
+            };
+
             _consumer.Received += async (model, snapShot) =>
             {
-                var messageContent = snapShot.Body.ToArray();
-                string content = Encoding.UTF8.GetString(messageContent);
-                message = JsonConvert.DeserializeObject<Message>(content);
-                await Handle(message);
+                if (!isBrokerDown)
+                {
+
+                    var messageContent = snapShot.Body.ToArray();
+                    string content = Encoding.UTF8.GetString(messageContent);
+                    message = JsonConvert.DeserializeObject<Message>(content);
+                    await Handle(message);
+                }
             };
+
+
+            _consumer.Shutdown += (model, snapshot) =>
+            {
+                isBrokerDown = true;
+            };
+
+
             channel.BasicConsume(queue: Configuration.BookQueue,
                                  autoAck: true,
                                  consumer: _consumer);

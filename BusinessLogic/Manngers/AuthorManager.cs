@@ -88,5 +88,12 @@ namespace BusinessLogic
             _unitOfWork.Authors.Delete(author);
             await _unitOfWork.Save();
         }
+
+
+        public void  Clear() { 
+        
+            _unitOfWork.Authors.c
+        
+        }
     }
 }

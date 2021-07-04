@@ -1,16 +1,16 @@
-﻿namespace BusinessLogic
-{
-    using BusinessLogic.Mappers;
-    using Contract.Exceptions;
-    using Entities;
-    using Filters;
-    using Models;
-    using Repoistories;
-    using Resources;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+﻿using BusinessLogic.Mappers;
+using Contract.Exceptions;
+using Entities;
+using Filters;
+using Models;
+using Repoistories;
+using Resources;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
+namespace BusinessLogic
+{
     public interface IBookManager
     {
         Task<List<BookResource>> GetAllAsync(Filter filter);
@@ -124,8 +124,11 @@
             await _unitOfWork.Save();
 
             BookResource bookResource = BookMapper.ToResource(book);
+
             bookResource.Authors = AuthorMapper.ToResources(Authors);
+
             bookResource.publisher = PublisherMapper.ToResource(publisher);
+
             return bookResource;
         }
 

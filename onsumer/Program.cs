@@ -22,7 +22,6 @@
 
         public static ServiceProvider RegisterAllServices()
         {
-
             return new ServiceCollection()
              .AddScoped<IUnitOfWork, UnitOfWork>()
              .AddScoped<MessageHandler, MessageHandler>()

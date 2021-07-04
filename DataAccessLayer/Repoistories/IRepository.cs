@@ -10,6 +10,8 @@ namespace Repoistories
     {
         List<TEntity> GetAll(Filter filter);
 
+        List<TEntity> GetAll();
+
         Task<TEntity> GetById(long id);
 
         Task<TEntity> Create(TEntity entity);
