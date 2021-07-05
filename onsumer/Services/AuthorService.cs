@@ -1,6 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Consumer.General;
+using Filters;
+using Newtonsoft.Json;
 using Resources;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -8,27 +11,43 @@ namespace Consumer.Services
 {
     public interface IAuthorService
     {
-        Task<AuthorResource> GetById(long Id);
+        public Task<List<AuthorResource>> GetAll(Filter filter);
+
+        public Task<AuthorResource> GetById(long id);
     }
 
     public class AuthorService : IAuthorService
     {
-        private readonly HttpClient _httpClient;
-
         private readonly string _endPoint;
+
+        private readonly HttpClient _httpClient;
 
         public AuthorService(HttpClient httpClient)
         {
-            this._httpClient = httpClient;
-            this._endPoint = Configuration.SourceEndPoint + "Author/";
+            _httpClient = httpClient;
+
+            _endPoint = Configuration.SourceEndPoint + "Author/";
         }
 
-        public async Task<AuthorResource> GetById(long Id)
+        public async Task<List<AuthorResource>> GetAll(Filter filter)
         {
-            HttpResponseMessage response = await this._httpClient.GetAsync(new Uri(this._endPoint + Id.ToString()));
+            Uri Uri = new Uri(_endPoint + "?pageNumber=" + filter.PageNumber + "&&pageSize=" + filter.PageSize);
+
+            HttpResponseMessage response = await _httpClient.GetAsync(Uri);
+
             string content = await response.Content.ReadAsStringAsync();
-            AuthorResource authorResource = JsonConvert.DeserializeObject<AuthorResource>(content);
-            return authorResource;
+
+            return JsonConvert.DeserializeObject<List<AuthorResource>>(content);
+
+        }
+
+        public async Task<AuthorResource> GetById(long id)
+        {
+            HttpResponseMessage Response = await _httpClient.GetAsync(new Uri(_endPoint + id.ToString()));
+
+            string Content = await Response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<AuthorResource>(Content);
         }
     }
 }

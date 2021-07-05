@@ -1,6 +1,8 @@
-﻿using Contract.RabbitMQ;
+﻿using BusinessLogic.Mappers;
+using Contract.RabbitMQ;
 using Entities;
 using ENUM;
+using Models;
 using Producer;
 using Repoistories;
 using System.Collections.Generic;
@@ -9,21 +11,22 @@ using System.Threading.Tasks;
 namespace BusinessLogic.Manngers
 {
 
-
-    public interface IHarvester
+    public interface IHarvesterManager
     {
-        void ClearViewCaches();
+        public Task Save();
 
-        void ClearAllAuthors();
+        public void RestViewCaches();
 
-        void ClearAllPublisher();
+        public Task ClearAllAuthorsAsync();
 
-        Task InsertPublishers(List<Publisher> Publishers);
+        public Task ClearAllPublisherAsync();
 
-        Task InsertAuthors(List<Author> Authors);
+        public Task InsertPublishers(List<PublisherModel> publishers);
+
+        public Task InsertAuthors(List<AuthorModel> authors);
     }
 
-    public class HarvesterManager : IHarvester
+    public class HarvesterManager : IHarvesterManager
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -31,50 +34,61 @@ namespace BusinessLogic.Manngers
 
         public HarvesterManager(IUnitOfWork unitOfWork, IProduce produce)
         {
-            this._unitOfWork = unitOfWork;
-            this._produce = produce;
+            _unitOfWork = unitOfWork;
+            _produce = produce;
         }
 
-        public void ClearViewCaches()
+        public async Task Save()
         {
-            Message SettingMessage = new Message()
+            await _unitOfWork.Save();
+        }
+
+        public void RestViewCaches()
+        {
+            Message settingMessage = new Message()
             {
-                operationType = OperationType.Rest
+                OperationType = OperationType.Rest,
+                DirtyEntityType = DirtyEntityType.None
             };
-            this._produce.CreateConnection();
-            this._produce.Send(SettingMessage);
+            _produce.CreateConnection();
+            _produce.Send(settingMessage);
         }
 
-        public void ClearAllAuthors()
+        public async Task ClearAllAuthorsAsync()
         {
-            List<Author> Authors = this._unitOfWork.Authors.GetAll();
+            List<Author> Authors = await _unitOfWork.Authors.GetAllAsync();
             foreach (Author author in Authors)
             {
-                this._unitOfWork.Authors.Delete(author);
+                _unitOfWork.Authors.Delete(author);
             }
         }
 
-        public void ClearAllPublisher()
+        public async Task ClearAllPublisherAsync()
         {
-            List<Publisher> Publishers = this._unitOfWork.Publishers.GetAll();
-            foreach (Publisher publisher in Publishers)
+            List<Publisher> publishers = await _unitOfWork.Publishers.GetAllAsync();
+            foreach (Publisher publisher in publishers)
             {
-                this._unitOfWork.Publishers.Delete(publisher);
+                _unitOfWork.Publishers.Delete(publisher);
             }
+            await _unitOfWork.Save();
         }
 
-        public async Task InsertAuthors(List<Author> Authors)
+        public async Task InsertAuthors(List<AuthorModel> authorModels)
         {
-            foreach (Author author in Authors)
+            foreach (AuthorModel authorModel in authorModels)
             {
+                Author author = new Author();
+                author = AuthorMapper.ToEntity(author, authorModel);
                 await _unitOfWork.Authors.Create(author);
             }
         }
 
-        public async Task InsertPublishers(List<Publisher> Publishers)
+        public async Task InsertPublishers(List<PublisherModel> publisherModels)
         {
-            foreach (Publisher publisher in Publishers)
+            foreach (PublisherModel publisherModel in publisherModels)
             {
+                Publisher publisher = new Publisher();
+                publisher = PublisherMapper.ToEntity(publisher, publisherModel);
                 await _unitOfWork.Publishers.Create(publisher);
             }
         }

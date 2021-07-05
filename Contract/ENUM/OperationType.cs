@@ -3,8 +3,8 @@
     public enum OperationType
     {
         Rest,
-        Create,
         Delete,
+        Create,
         Update
     }
 

@@ -1,14 +1,13 @@
-﻿using Entities;
-using Models;
-using Resources;
-using System.Collections.Generic;
-
-namespace BusinessLogic.Mappers
+﻿namespace BusinessLogic.Mappers
 {
+    using Entities;
+    using Models;
+    using Resources;
+    using System.Collections.Generic;
+
     public class AuthorMapper
     {
-      
-        public static List<AuthorResource> ToResources(IEnumerable<Author> authors) 
+        public static List<AuthorResource> ToResources(IEnumerable<Author> authors)
         {
             List<AuthorResource> AuthorResourcess = new List<AuthorResource>();
 
@@ -28,7 +27,6 @@ namespace BusinessLogic.Mappers
             return AuthorResourcess;
         }
 
-
         public static AuthorResource ToResource(Author author)
         {
             AuthorResource authorResource = new AuthorResource();
@@ -39,8 +37,7 @@ namespace BusinessLogic.Mappers
             return authorResource;
         }
 
-
-        public static Author ToEntity(Author author, AuthorModel authorModel) 
+        public static Author ToEntity(Author author, AuthorModel authorModel)
         {
             author.Id = authorModel.Id;
             author.Email = authorModel.Email;
@@ -52,12 +49,30 @@ namespace BusinessLogic.Mappers
         public static AuthorModel ToModel(AuthorResource authorResource)
         {
             AuthorModel authorModel = new AuthorModel();
-            authorModel.Id = (int) authorResource.Id;
+            authorModel.Id = (int)authorResource.Id;
             authorModel.Email = authorResource.Email;
             authorModel.DateOfBirth = authorResource.DateOfBirth;
             authorModel.Name = authorResource.Name.Trim();
             return authorModel;
         }
 
+        public static List<AuthorModel> ToModels(List<AuthorResource> authorResources)
+        {
+            List<AuthorModel> AuthorModels = new List<AuthorModel>();
+
+            foreach (var authorResource in authorResources)
+            {
+                AuthorModels.Add(
+                    new AuthorModel
+                    {
+                        Id = (int)authorResource.Id,
+                        Email = authorResource.Email,
+                        DateOfBirth = authorResource.DateOfBirth,
+                        Name = authorResource.Name.Trim()
+                    }
+                  );
+            }
+            return AuthorModels;
+        }
     }
 }

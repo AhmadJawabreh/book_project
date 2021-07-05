@@ -8,9 +8,7 @@ namespace Repoistories
     {
         private readonly ApplicationDbContext _context;
 
-
         public IBookRepository _books;
-
 
         public IRepository<Author> _authors;
 

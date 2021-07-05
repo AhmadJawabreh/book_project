@@ -12,7 +12,7 @@ namespace Repoistories
 
     public interface IBookRepository : IRepository<Book>
     {
-        Task<Book> GetBookWithAuthors(long Id);
+        Task<Book> GetBookWithAuthors(long id);
     }
 
     public class BookRepository : BaseRepository<Book>, IBookRepository
@@ -32,7 +32,6 @@ namespace Repoistories
             {
                 _dbSet = _dbSet.Where(item => item.Name == filter.BookName);
             }
-
 
             List<Book> books = _dbSet.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize).ToList();
 

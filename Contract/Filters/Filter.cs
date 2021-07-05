@@ -2,7 +2,7 @@
 
 namespace Filters
 {
-    public class Filter: Pagination
+    public class Filter : Pagination
     {
         public string BookName { get; set; }
 

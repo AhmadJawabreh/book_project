@@ -1,0 +1,12 @@
+C:\Users\USER\Desktop\book_project\Producer\bin\Debug\net5.0\Producer.deps.json
+C:\Users\USER\Desktop\book_project\Producer\bin\Debug\net5.0\Producer.dll
+C:\Users\USER\Desktop\book_project\Producer\bin\Debug\net5.0\ref\Producer.dll
+C:\Users\USER\Desktop\book_project\Producer\bin\Debug\net5.0\Producer.pdb
+C:\Users\USER\Desktop\book_project\Producer\obj\Debug\net5.0\Producer.csproj.AssemblyReference.cache
+C:\Users\USER\Desktop\book_project\Producer\obj\Debug\net5.0\Producer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\Desktop\book_project\Producer\obj\Debug\net5.0\Producer.AssemblyInfoInputs.cache
+C:\Users\USER\Desktop\book_project\Producer\obj\Debug\net5.0\Producer.AssemblyInfo.cs
+C:\Users\USER\Desktop\book_project\Producer\obj\Debug\net5.0\Producer.csproj.CoreCompileInputs.cache
+C:\Users\USER\Desktop\book_project\Producer\obj\Debug\net5.0\Producer.dll
+C:\Users\USER\Desktop\book_project\Producer\obj\Debug\net5.0\ref\Producer.dll
+C:\Users\USER\Desktop\book_project\Producer\obj\Debug\net5.0\Producer.pdb

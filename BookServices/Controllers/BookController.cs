@@ -6,10 +6,8 @@ using Resources;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
 namespace API.Controllers
 {
-
     [Route("Book")]
     [ApiController]
     public class BookController : Controller
@@ -18,7 +16,7 @@ namespace API.Controllers
 
         public BookController(IBookManager bookManager)
         {
-            this._bookManager = bookManager;
+            _bookManager = bookManager;
         }
 
         [HttpGet]
@@ -29,9 +27,9 @@ namespace API.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> Details([FromRoute] int Id)
+        public async Task<IActionResult> Details([FromRoute] int id)
         {
-            BookResource bookResource = await _bookManager.GetByIdAsync(Id);
+            BookResource bookResource = await _bookManager.GetByIdAsync(id);
             return Ok(bookResource);
         }
 
@@ -49,13 +47,11 @@ namespace API.Controllers
             return Ok(bookResource);
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<IActionResult> Delete([FromRoute] int Id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            await _bookManager.Delete(Id);
+            await _bookManager.Delete(id);
             return Ok();
         }
-
-
     }
 }

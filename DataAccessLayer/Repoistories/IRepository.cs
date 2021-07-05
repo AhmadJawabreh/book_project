@@ -3,25 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
 namespace Repoistories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        List<TEntity> GetAll(Filter filter);
+        public List<TEntity> GetAll(Filter filter);
 
-        List<TEntity> GetAll();
+        public Task<List<TEntity>> GetAllAsync();
 
-        Task<TEntity> GetById(long id);
+        public Task<TEntity> GetById(long id);
 
-        Task<TEntity> Create(TEntity entity);
+        public Task<TEntity> Create(TEntity entity);
 
-        TEntity Update(TEntity entity);
+        public TEntity Update(TEntity entity);
 
-        TEntity FirstOrDefalut(Func<TEntity, bool> condition);
+        public TEntity FirstOrDefalut(Func<TEntity, bool> condition);
 
-        List<TEntity> Where(Func<TEntity, bool> condition);
+        public List<TEntity> Where(Func<TEntity, bool> condition);
 
-        void Delete(TEntity entity);
+        public void Delete(TEntity entity);
     }
 }

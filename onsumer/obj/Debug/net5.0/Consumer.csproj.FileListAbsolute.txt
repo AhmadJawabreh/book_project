@@ -68,3 +68,5 @@ C:\Users\USER\Desktop\book_project\onsumer\obj\Debug\net5.0\Consumer.dll
 C:\Users\USER\Desktop\book_project\onsumer\obj\Debug\net5.0\ref\Consumer.dll
 C:\Users\USER\Desktop\book_project\onsumer\obj\Debug\net5.0\Consumer.pdb
 C:\Users\USER\Desktop\book_project\onsumer\obj\Debug\net5.0\Consumer.genruntimeconfig.cache
+C:\Users\USER\Desktop\book_project\onsumer\bin\Debug\net5.0\Producer.dll
+C:\Users\USER\Desktop\book_project\onsumer\bin\Debug\net5.0\Producer.pdb

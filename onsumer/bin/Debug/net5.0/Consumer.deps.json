@@ -975,7 +975,8 @@
       "BusinessLogic/1.0.0": {
         "dependencies": {
           "Contract": "1.0.0",
-          "DataAccessLayer": "1.0.0"
+          "DataAccessLayer": "1.0.0",
+          "Producer": "1.0.0"
         },
         "runtime": {
           "BusinessLogic.dll": {}
@@ -995,6 +996,15 @@
         },
         "runtime": {
           "DataAccessLayer.dll": {}
+        }
+      },
+      "Producer/1.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1",
+          "RabbitMQ.Client": "6.2.2"
+        },
+        "runtime": {
+          "Producer.dll": {}
         }
       }
     }
@@ -1667,6 +1677,11 @@
       "sha512": ""
     },
     "DataAccessLayer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Producer/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Resources
 {
-
     public class BookResource
     {
         public long Id { get; set; }
@@ -12,7 +11,7 @@ namespace Resources
 
         public DateTime ReleaseDate { get; set; }
 
-        public PublisherResource publisher { get; set; }
+        public PublisherResource Publisher { get; set; }
 
         public List<AuthorResource> Authors { get; set; }
     }

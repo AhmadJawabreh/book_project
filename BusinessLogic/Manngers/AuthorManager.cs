@@ -10,14 +10,17 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-
     public interface IAuthorManager
     {
-        List<AuthorResource> GetAll(Filter filter);
-        Task<AuthorResource> GetByIdAsync(long id);
-        Task<AuthorResource> InsertAsync(AuthorModel authorModel);
-        Task<AuthorResource> UpdateAsync(AuthorModel authorModel);
-        Task DeleteAsync(long id);
+        public List<AuthorResource> GetAll(Filter filter);
+
+        public Task<AuthorResource> GetByIdAsync(long id);
+
+        public Task<AuthorResource> InsertAsync(AuthorModel authorModel);
+
+        public Task<AuthorResource> UpdateAsync(AuthorModel authorModel);
+
+        public Task DeleteAsync(long id);
     }
 
     public class AuthorManager : IAuthorManager
@@ -26,7 +29,7 @@ namespace BusinessLogic
 
         public AuthorManager(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public List<AuthorResource> GetAll(Filter filter)
@@ -46,9 +49,9 @@ namespace BusinessLogic
             return AuthorMapper.ToResources(authors);
         }
 
-        public async Task<AuthorResource> GetByIdAsync(long Id)
+        public async Task<AuthorResource> GetByIdAsync(long id)
         {
-            Author author = await _unitOfWork.Authors.GetById(Id);
+            Author author = await _unitOfWork.Authors.GetById(id);
             if (author == null)
             {
                 throw new NotFoundException("This Author does not found.");
@@ -78,22 +81,15 @@ namespace BusinessLogic
             return AuthorMapper.ToResource(author);
         }
 
-        public async Task DeleteAsync(long Id)
+        public async Task DeleteAsync(long id)
         {
-            Author author = await _unitOfWork.Authors.GetById(Id);
+            Author author = await _unitOfWork.Authors.GetById(id);
             if (author == null)
             {
                 throw new NotFoundException("This Author does not found.");
             }
             _unitOfWork.Authors.Delete(author);
             await _unitOfWork.Save();
-        }
-
-
-        public void  Clear() { 
-        
-            _unitOfWork.Authors.c
-        
         }
     }
 }

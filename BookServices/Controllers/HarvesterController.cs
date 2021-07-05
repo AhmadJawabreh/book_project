@@ -3,21 +3,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-
-
+    [Route("Harvester")]
+    [ApiController]
     public class HarvesterController : Controller
     {
-        internal HarvesterManager _harvesterManager;
+        private readonly IHarvesterManager _harvesterManager;
 
-        public HarvesterController(HarvesterManager harvesterManager)
+        public HarvesterController(IHarvesterManager harvesterManager)
         {
-            this._harvesterManager = harvesterManager;
+            _harvesterManager = harvesterManager;
         }
 
         [HttpGet]
-        public IActionResult ClearViewCaches()
+        public IActionResult RestViewCaches()
         {
-            this._harvesterManager.ClearViewCaches();
+            _harvesterManager.RestViewCaches();
             return Ok();
         }
     }

@@ -1,39 +1,20 @@
-﻿namespace Consumer
-{
-    using BusinessLogic;
-    using Consumer.Handler;
-    using Consumer.Services;
-    using Data;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.DependencyInjection;
-    using Repoistories;
-    using System.Net.Http;
+﻿using Consumer.General;
+using Consumer.Handler;
+using Microsoft.Extensions.DependencyInjection;
 
+namespace Consumer
+{
     internal class Program
     {
         public static void Main(string[] args)
         {
-            ServiceProvider services = RegisterAllServices();
-            MessageHandler _messageHandler = services.GetService<MessageHandler>();
+            ServiceProvider services = Helper.RegisterAllServices();
 
-            _messageHandler.CreateConnection();
-            _messageHandler.Listen();
-        }
+            IMessageHandler messageHandler = services.GetService<IMessageHandler>();
 
-        public static ServiceProvider RegisterAllServices()
-        {
-            return new ServiceCollection()
-             .AddScoped<IUnitOfWork, UnitOfWork>()
-             .AddScoped<MessageHandler, MessageHandler>()
-             .AddScoped<HttpClient, HttpClient>()
-             .AddScoped<AuthorService, AuthorService>()
-             .AddScoped<AuthorManager, AuthorManager>()
-             .AddScoped<PublisherService, PublisherService>()
-             .AddScoped<PublisherManager, PublisherManager>()
-             .AddDbContext<ApplicationDbContext>(options =>
-                 options.UseSqlServer("Server=localhost;Database=db_book;Trusted_Connection=True;"))
-             .AddSingleton<ApplicationDbContext, ApplicationDbContext>()
-             .BuildServiceProvider();
+            messageHandler.CreateConnection();
+
+            messageHandler.Listen();
         }
     }
 }

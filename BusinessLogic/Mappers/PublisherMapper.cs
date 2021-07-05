@@ -5,29 +5,29 @@ using System.Collections.Generic;
 
 namespace BusinessLogic.Mappers
 {
-   public  class PublisherMapper
-    {    
-       
+    public class PublisherMapper
+    {
+
         public static List<PublisherResource> ToResources(IEnumerable<Publisher> Publishers)
         {
             List<PublisherResource> publisherResources = new List<PublisherResource>();
             foreach (var Item in Publishers)
             {
                 publisherResources.Add(new PublisherResource
-                    {
-                        Id = Item.Id,
-                        FirstName = Item.FirstName,
-                        LastName = Item.LastName,
-                        Email = Item.Email,
-                        Address = Item.Address,
-                        Phone = Item.Phone
-                    }
+                {
+                    Id = Item.Id,
+                    FirstName = Item.FirstName,
+                    LastName = Item.LastName,
+                    Email = Item.Email,
+                    Address = Item.Address,
+                    Phone = Item.Phone
+                }
                 );
             }
             return publisherResources;
         }
 
-        public static PublisherResource ToResource(Publisher publisher) 
+        public static PublisherResource ToResource(Publisher publisher)
         {
             PublisherResource publisherResource = new PublisherResource();
             publisherResource.Id = publisher.Id;
@@ -39,7 +39,7 @@ namespace BusinessLogic.Mappers
             return publisherResource;
         }
 
-        public static Publisher ToEntity(Publisher publisher,PublisherModel publisherModel)
+        public static Publisher ToEntity(Publisher publisher, PublisherModel publisherModel)
         {
             publisher.Id = publisherModel.Id;
             publisher.FirstName = publisherModel.FirstName.Trim();
@@ -53,7 +53,7 @@ namespace BusinessLogic.Mappers
         public static PublisherModel ToModel(PublisherResource publisherResource)
         {
             PublisherModel publisherModel = new PublisherModel();
-            publisherModel.Id = (int) publisherResource.Id;
+            publisherModel.Id = (int)publisherResource.Id;
             publisherModel.FirstName = publisherResource.FirstName.Trim();
             publisherModel.LastName = publisherResource.LastName.Trim();
             publisherModel.Email = publisherResource.Email?.Trim();
@@ -62,6 +62,22 @@ namespace BusinessLogic.Mappers
             return publisherModel;
         }
 
+        public static List<PublisherModel> ToModels(List<PublisherResource> publisherResources)
+        {
+            List<PublisherModel> publisherModels = new List<PublisherModel>();
 
+            foreach (PublisherResource publisherResource in publisherResources)
+            {
+                PublisherModel publisherModel = new PublisherModel();
+                publisherModel.Id = (int)publisherResource.Id;
+                publisherModel.FirstName = publisherResource.FirstName.Trim();
+                publisherModel.LastName = publisherResource.LastName.Trim();
+                publisherModel.Email = publisherResource.Email?.Trim();
+                publisherModel.Phone = publisherResource.Phone?.Trim();
+                publisherModel.Address = publisherResource.Address?.Trim();
+                publisherModels.Add(publisherModel);
+            }
+            return publisherModels;
+        }
     }
 }

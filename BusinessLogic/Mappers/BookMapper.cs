@@ -25,7 +25,7 @@ namespace BusinessLogic.Mappers
         }
 
 
-        public static BookResource ToResource(Book book) 
+        public static BookResource ToResource(Book book)
         {
             BookResource bookResource = new BookResource();
             bookResource.Id = book.Id;
@@ -34,7 +34,7 @@ namespace BusinessLogic.Mappers
             return bookResource;
         }
 
- 
+
         public static Book ToEntity(Book book, BookModel bookModel)
         {
             book.Id = bookModel.Id;

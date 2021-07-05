@@ -1,20 +1,15 @@
 using BusinessLogic;
+using BusinessLogic.Manngers;
 using Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Producer;
 using Repoistories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookServices
 {
@@ -32,7 +27,9 @@ namespace BookServices
         {
             services.AddControllers();
             services.AddScoped<IBookManager, BookManager>();
+            services.AddScoped<IProduce, Produce>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IHarvesterManager, HarvesterManager>();
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer("Server=localhost;Database=db_book;Trusted_Connection=True;",
             b =>

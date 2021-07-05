@@ -10,7 +10,7 @@ namespace Resources
 
         public DateTime DateOfBirth { get; set; }
 
-        public string Email { get; set; } 
+        public string Email { get; set; }
 
     }
 }

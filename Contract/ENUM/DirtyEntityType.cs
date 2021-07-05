@@ -3,7 +3,7 @@
     public enum DirtyEntityType
     {
         Publisher,
-
-        Author
+        Author,
+        None
     }
 }

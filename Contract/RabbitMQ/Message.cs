@@ -4,8 +4,11 @@ namespace Contract.RabbitMQ
 {
     public class Message
     {
-        public long id;
-        public OperationType operationType;
-        public DirtyEntityType dirtyEntityType;
+        public long Id;
+
+        public OperationType OperationType;
+
+        public DirtyEntityType DirtyEntityType;
+
     }
 }

@@ -1,14 +1,21 @@
-﻿using Newtonsoft.Json;
+﻿using Consumer.General;
+using Filters;
+using Newtonsoft.Json;
 using Resources;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Consumer.Services
 {
+
+
     public interface IPublisherService
     {
-        Task<PublisherResource> GetById(long Id);
+        public Task<List<PublisherResource>> GetAll(Filter filter);
+
+        public Task<PublisherResource> GetById(long id);
     }
 
     public class PublisherService : IPublisherService
@@ -19,15 +26,34 @@ namespace Consumer.Services
 
         public PublisherService(HttpClient httpClient)
         {
-            this._httpClient = httpClient;
-            this._endPoint = Configuration.SourceEndPoint + "Publisher/";
+            _httpClient = httpClient;
+
+            _endPoint = Configuration.SourceEndPoint + "Publisher";
         }
 
-        public async Task<PublisherResource> GetById(long Id)
+        public async Task<List<PublisherResource>> GetAll(Filter filter)
         {
-            HttpResponseMessage response = await this._httpClient.GetAsync(new Uri(this._endPoint + Id.ToString()));
+            Uri uri = new Uri(_endPoint + "?pageNumber=" + filter.PageNumber + "&&pageSize=" + filter.PageSize);
+
+            HttpResponseMessage response = await _httpClient.GetAsync(uri);
+
             string content = await response.Content.ReadAsStringAsync();
+
+            List<PublisherResource> publisherResources = JsonConvert.DeserializeObject<List<PublisherResource>>(content);
+
+            return publisherResources;
+        }
+
+        public async Task<PublisherResource> GetById(long id)
+        {
+            Uri uri = new Uri(_endPoint + id.ToString());
+
+            HttpResponseMessage response = await _httpClient.GetAsync(uri);
+
+            string content = await response.Content.ReadAsStringAsync();
+
             PublisherResource PublisherResource = JsonConvert.DeserializeObject<PublisherResource>(content);
+
             return PublisherResource;
         }
     }

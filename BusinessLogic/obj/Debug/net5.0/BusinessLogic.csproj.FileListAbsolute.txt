@@ -32,3 +32,5 @@ C:\Users\USER\Desktop\book_project\BusinessLogic\obj\Debug\net5.0\BusinessLogic.
 C:\Users\USER\Desktop\book_project\BusinessLogic\obj\Debug\net5.0\BusinessLogic.dll
 C:\Users\USER\Desktop\book_project\BusinessLogic\obj\Debug\net5.0\ref\BusinessLogic.dll
 C:\Users\USER\Desktop\book_project\BusinessLogic\obj\Debug\net5.0\BusinessLogic.pdb
+C:\Users\USER\Desktop\book_project\BusinessLogic\bin\Debug\net5.0\Producer.dll
+C:\Users\USER\Desktop\book_project\BusinessLogic\bin\Debug\net5.0\Producer.pdb

@@ -1,8 +1,8 @@
-﻿namespace Data
-{
-    using Entities;
-    using Microsoft.EntityFrameworkCore;
+﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 
+namespace Data
+{
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

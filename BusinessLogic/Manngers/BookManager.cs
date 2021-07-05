@@ -9,19 +9,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace BusinessLogic
 {
     public interface IBookManager
     {
-        Task<List<BookResource>> GetAllAsync(Filter filter);
+        public Task<List<BookResource>> GetAllAsync(Filter filter);
 
-        Task<BookResource> GetByIdAsync(long Id);
+        public Task<BookResource> GetByIdAsync(long id);
 
-        Task<BookResource> InsertAsync(BookModel bookModel);
+        public Task<BookResource> InsertAsync(BookModel bookModel);
 
-        Task<BookResource> UpdateAsync(BookModel bookModel);
+        public Task<BookResource> UpdateAsync(BookModel bookModel);
 
-        Task Delete(long Id);
+        public Task Delete(long id);
     }
 
     public class BookManager : IBookManager
@@ -30,7 +31,7 @@ namespace BusinessLogic
 
         public BookManager(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<List<BookResource>> GetAllAsync(Filter filter)
@@ -46,11 +47,11 @@ namespace BusinessLogic
                 throw new InvalidArgumentException("Page Size must be more than 10.");
             }
 
-            List<Book> Books = _unitOfWork.Books.GetAll(filter);
+            List<Book> books = _unitOfWork.Books.GetAll(filter);
 
-            List<BookResource> BookResources = new List<BookResource>();
+            List<BookResource> bookResources = new List<BookResource>();
 
-            foreach (Book book in Books)
+            foreach (Book book in books)
             {
                 Publisher publisher = await _unitOfWork.Publishers.GetById((long)book.PublisherId);
 
@@ -59,22 +60,19 @@ namespace BusinessLogic
                 List<Author> authors = _unitOfWork.Authors.Where(item => authorIds.Contains(item.Id)).ToList();
 
                 BookResource bookResource = BookMapper.ToResource(book);
-
-                bookResource.publisher = PublisherMapper.ToResource(publisher);
-
+                bookResource.Publisher = PublisherMapper.ToResource(publisher);
                 bookResource.Authors = AuthorMapper.ToResources(authors);
 
-                BookResources.Add(bookResource);
+                bookResources.Add(bookResource);
             }
 
-
-            return BookResources;
+            return bookResources;
         }
 
-        public async Task<BookResource> GetByIdAsync(long Id)
+        public async Task<BookResource> GetByIdAsync(long id)
         {
 
-            Book book = await _unitOfWork.Books.GetBookWithAuthors(Id);
+            Book book = await _unitOfWork.Books.GetBookWithAuthors(id);
 
             if (book == null)
             {
@@ -88,9 +86,7 @@ namespace BusinessLogic
             List<Author> authors = _unitOfWork.Authors.Where(item => authorIds.Contains(item.Id)).ToList();
 
             BookResource bookResource = BookMapper.ToResource(book);
-
-            bookResource.publisher = PublisherMapper.ToResource(publisher);
-
+            bookResource.Publisher = PublisherMapper.ToResource(publisher);
             bookResource.Authors = AuthorMapper.ToResources(authors);
 
             return bookResource;
@@ -99,16 +95,17 @@ namespace BusinessLogic
         public async Task<BookResource> InsertAsync(BookModel bookModel)
         {
 
-            Book _book = _unitOfWork.Books.FirstOrDefalut(item => item.Name == bookModel?.Name);
-
-            if (_book != null)
+            string bookName = _unitOfWork.Books.FirstOrDefalut(item => item.Name == bookModel?.Name)?.Name;
+            if (!string.IsNullOrEmpty(bookName))
                 throw new DubplicateDataException("Book Name already exist");
+
 
             Publisher publisher = _unitOfWork.Publishers.FirstOrDefalut(item => item.Id == bookModel?.PublisherId);
             if (publisher == null)
                 throw new NotFoundException("Publisher does not exist ");
 
-            List<Author> Authors = _unitOfWork.Authors.Where(item => bookModel.AuthorIds.Contains(item.Id)).ToList();
+
+            List<Author> authors = _unitOfWork.Authors.Where(item => bookModel.AuthorIds.Contains(item.Id)).ToList();
 
             Book book = BookMapper.ToEntity(new Book(), bookModel);
 
@@ -116,7 +113,7 @@ namespace BusinessLogic
 
             await _unitOfWork.Save();
 
-            foreach (Author author in Authors)
+            foreach (Author author in authors)
             {
                 await _unitOfWork.BookAuthors.Create(new BookAuthor() { AuthorId = author.Id, BookId = book.Id });
             }
@@ -124,10 +121,8 @@ namespace BusinessLogic
             await _unitOfWork.Save();
 
             BookResource bookResource = BookMapper.ToResource(book);
-
-            bookResource.Authors = AuthorMapper.ToResources(Authors);
-
-            bookResource.publisher = PublisherMapper.ToResource(publisher);
+            bookResource.Authors = AuthorMapper.ToResources(authors);
+            bookResource.Publisher = PublisherMapper.ToResource(publisher);
 
             return bookResource;
         }
@@ -139,44 +134,48 @@ namespace BusinessLogic
             if (book == null)
                 throw new DubplicateDataException("This Book does not exist");
 
-            Book _book = _unitOfWork.Books.FirstOrDefalut(item => item.Name == bookModel?.Name);
-            if (_book != null && _book.Id != bookModel.Id)
+
+            Book oldBook = _unitOfWork.Books.FirstOrDefalut(item => item.Name == bookModel?.Name);
+            if (oldBook != null && oldBook.Id != bookModel.Id)
                 throw new DubplicateDataException("Book Name already exist");
+
 
             Publisher publisher = _unitOfWork.Publishers.FirstOrDefalut(item => item.Id == bookModel?.PublisherId);
             if (publisher == null)
                 throw new NotFoundException("Publisher does not exist ");
 
-            List<Author> Authors = _unitOfWork.Authors.Where(item => bookModel.AuthorIds.Contains(item.Id)).ToList();
 
-            List<BookAuthor> BookAuthors = Authors.Select(item => new BookAuthor { AuthorId = item.Id, BookId = book.Id }).ToList();
+            List<Author> authors = _unitOfWork.Authors.Where(item => bookModel.AuthorIds.Contains(item.Id)).ToList();
+
+            List<BookAuthor> bookAuthors = authors.Select(item => new BookAuthor { AuthorId = item.Id, BookId = book.Id }).ToList();
 
             BookMapper.ToEntity(book, bookModel);
 
-            book.BookAuthors = BookAuthors;
+            book.BookAuthors = bookAuthors;
 
             _unitOfWork.Books.Update(book);
 
             await _unitOfWork.Save();
 
             BookResource bookResource = BookMapper.ToResource(book);
-
-            bookResource.Authors = AuthorMapper.ToResources(Authors);
-
-            bookResource.publisher = PublisherMapper.ToResource(publisher);
+            bookResource.Authors = AuthorMapper.ToResources(authors);
+            bookResource.Publisher = PublisherMapper.ToResource(publisher);
 
             return bookResource;
         }
 
-        public async Task Delete(long Id)
+        public async Task Delete(long id)
         {
-            Book book = await _unitOfWork.Books.GetById(Id);
+            Book book = await _unitOfWork.Books.GetById(id);
+
             if (book == null)
             {
                 throw new NotFoundException("This Book does not found");
             }
+
             _unitOfWork.Books.Delete(book);
-            await this._unitOfWork.Save();
+
+            await _unitOfWork.Save();
         }
     }
 }
