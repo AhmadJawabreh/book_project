@@ -2,10 +2,10 @@
 {
     public enum OperationType
     {
-        Rest,
-        Delete,
         Create,
-        Update
+        Delete,
+        Update,
+        Rest
     }
 
 }

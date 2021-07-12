@@ -13,7 +13,7 @@ namespace Consumer.Services
 
     public interface IPublisherService
     {
-        public Task<List<PublisherResource>> GetAll(Filter filter);
+        public Task<List<PublisherResource>> GetAll();
 
         public Task<PublisherResource> GetById(long id);
     }
@@ -31,9 +31,9 @@ namespace Consumer.Services
             _endPoint = Configuration.SourceEndPoint + "Publisher";
         }
 
-        public async Task<List<PublisherResource>> GetAll(Filter filter)
+        public async Task<List<PublisherResource>> GetAll()
         {
-            Uri uri = new Uri(_endPoint + "?pageNumber=" + filter.PageNumber + "&&pageSize=" + filter.PageSize);
+            Uri uri = new Uri(_endPoint);
 
             HttpResponseMessage response = await _httpClient.GetAsync(uri);
 
@@ -46,7 +46,7 @@ namespace Consumer.Services
 
         public async Task<PublisherResource> GetById(long id)
         {
-            Uri uri = new Uri(_endPoint + id.ToString());
+            Uri uri = new Uri(_endPoint+ "/" + id.ToString());
 
             HttpResponseMessage response = await _httpClient.GetAsync(uri);
 

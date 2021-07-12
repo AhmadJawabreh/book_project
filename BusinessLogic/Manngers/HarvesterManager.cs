@@ -15,7 +15,7 @@ namespace BusinessLogic.Manngers
     {
         public Task Save();
 
-        public void RestViewCaches();
+        public void ResetViewCaches();
 
         public Task ClearAllAuthorsAsync();
 
@@ -43,7 +43,7 @@ namespace BusinessLogic.Manngers
             await _unitOfWork.Save();
         }
 
-        public void RestViewCaches()
+        public void ResetViewCaches()
         {
             Message settingMessage = new Message()
             {
@@ -70,7 +70,6 @@ namespace BusinessLogic.Manngers
             {
                 _unitOfWork.Publishers.Delete(publisher);
             }
-            await _unitOfWork.Save();
         }
 
         public async Task InsertAuthors(List<AuthorModel> authorModels)

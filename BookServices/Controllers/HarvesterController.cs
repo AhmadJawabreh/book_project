@@ -17,7 +17,7 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult RestViewCaches()
         {
-            _harvesterManager.RestViewCaches();
+            _harvesterManager.ResetViewCaches();
             return Ok();
         }
     }

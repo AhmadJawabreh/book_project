@@ -5,7 +5,6 @@ using Consumer.General;
 using Consumer.Services;
 using Contract.RabbitMQ;
 using ENUM;
-using Filters;
 using Models;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -32,7 +31,7 @@ namespace Consumer.Handler
 
         public Task AuthorHandler(Message message);
 
-        public Task RestViewCaches();
+        public Task ResetViewCaches();
     }
 
     public class MessageHandler : IMessageHandler
@@ -102,7 +101,7 @@ namespace Consumer.Handler
                 var messageContent = snapShot.Body.ToArray();
 
                 string content = Encoding.UTF8.GetString(messageContent);
-
+                
                 message = JsonConvert.DeserializeObject<Message>(content);
 
                 await Handle(message);
@@ -130,7 +129,7 @@ namespace Consumer.Handler
                     break;
 
                 case DirtyEntityType.None:
-                    await RestViewCaches();
+                    await ResetViewCaches();
                     break;
             }
         }
@@ -179,13 +178,11 @@ namespace Consumer.Handler
             }
         }
 
-        public async Task RestViewCaches()
+        public async Task ResetViewCaches()
         {
-            Filter filter = new Filter() { PageNumber = 1, PageSize = 200 };
+            List<AuthorResource> authorResources = await _authorService.GetAll();
 
-            List<AuthorResource> authorResources = await _authorService.GetAll(filter);
-
-            List<PublisherResource> publisherResources = await _publisherService.GetAll(filter);
+            List<PublisherResource> publisherResources = await _publisherService.GetAll();
 
             List<AuthorModel> authorModels = AuthorMapper.ToModels(authorResources);
 

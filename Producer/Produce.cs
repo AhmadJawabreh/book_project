@@ -22,7 +22,7 @@ namespace Producer
         {
             this._connectionFactory = this.CreateConnection();
             this._connection = this._connectionFactory.CreateConnection();
-        }
+        }   
 
         public void Send(object entity)
         {

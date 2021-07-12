@@ -11,7 +11,7 @@ namespace Consumer.Services
 {
     public interface IAuthorService
     {
-        public Task<List<AuthorResource>> GetAll(Filter filter);
+        public Task<List<AuthorResource>> GetAll();
 
         public Task<AuthorResource> GetById(long id);
     }
@@ -29,9 +29,9 @@ namespace Consumer.Services
             _endPoint = Configuration.SourceEndPoint + "Author/";
         }
 
-        public async Task<List<AuthorResource>> GetAll(Filter filter)
+        public async Task<List<AuthorResource>> GetAll()
         {
-            Uri Uri = new Uri(_endPoint + "?pageNumber=" + filter.PageNumber + "&&pageSize=" + filter.PageSize);
+            Uri Uri = new Uri(_endPoint);
 
             HttpResponseMessage response = await _httpClient.GetAsync(Uri);
 
